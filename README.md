@@ -1,13 +1,5 @@
 # Shadow Station
 
-Shadow Station is an isometric sci-fi action game set aboard Relay 7, an orbital station of the operator
-LANTERN ORBITAL. You play an ordinary station employee who fights past hostile maintenance machines, searches
-every corner and cracks locks on his way from his quarters through workshops and a pitch-dark sewer maze. It
-is a small, hard game in a deliberate pixel look: every health point, battery and item counts, and thorough
-exploration pays off.
-
-This is an early test build (version shown on the title screen and in the pause MENU).
-
 ## Play in the browser
 
 Open **https://fiodortretyakov.github.io/shadow-station-public/** in a desktop browser (Chrome, Edge, Firefox or Safari). The first start downloads about 20 MB and takes 15 to 30 seconds.
