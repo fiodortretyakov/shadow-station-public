@@ -2,9 +2,9 @@
 
 ## Play in the browser
 
-Open **https://fiodortretyakov.github.io/shadow-station-public/** in a desktop browser (Chrome, Edge, Firefox or Safari). The first start downloads about 20 MB and takes 15 to 30 seconds.
+Open **https://fiodortretyakov.github.io/shadow-station-public/** in a desktop browser (Chrome, Edge, Firefox or Safari). The first start downloads about 20 MB, then prepares the station's graphics behind a loading bar; on a first visit this can take half a minute, later visits are quicker (the browser keeps what it prepared).
 Click the page or press a key once: browsers only start sound after a click or key press. F11 (or MENU >
-FULLSCREEN) fills the screen. The game saves at the two MOD STATIONs; the save stays in this browser.
+FULLSCREEN) fills the screen. The game saves at the SAVE STATION, without a cost, as often as you like; the save stays in this browser.
 
 To play without a browser, download the Windows build from [Releases](https://github.com/fiodortretyakov/shadow-station-public/releases) (arm64 for Snapdragon
 PCs, x86_64 for most others), unzip it and run `ShadowStation.exe`.
@@ -26,7 +26,7 @@ PCs, x86_64 for most others), unzip it and run `ShadowStation.exe`.
 | Confirm / cancel | Enter / Escape              | A / B                           |
 | Fullscreen       | F11 or Alt+Enter            | MENU > FULLSCREEN               |
 
-Back hop and parry are abilities bought at a MOD STATION. MENU > CONTROLS in the game lists everything.
+Back hop and parry are skills bought at the UPGRADE STATION. MENU > CONTROLS in the game lists everything.
 
 ## Known limits of the browser build
 
@@ -39,7 +39,7 @@ Back hop and parry are abilities bought at a MOD STATION. MENU > CONTROLS in the
   the other Latin or Cyrillic languages), or use the Windows build.
 - The save lives in the browser's site storage: a private window, clearing site data or blocked cookies lose it.
 - There is no EXIT in the menus; close the tab instead. A tab in the background pauses the game.
-- Sound can crackle on slow machines; the Windows build has none of these limits.
+- A browser runs the game and mixes its sound on one thread: on a slow machine a long frame can still cause a short gap in the sound (the game prepares every room during loading, so entering a room no longer stalls). The Windows build has none of these limits.
 
 ## Reporting a problem
 
