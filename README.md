@@ -4,7 +4,7 @@
 
 Open **https://fiodortretyakov.github.io/shadow-station-public/** in a desktop browser (Chrome, Edge, Firefox or Safari). The first start downloads about 20 MB, then prepares the station's graphics behind a loading bar; on a first visit this can take half a minute, later visits are quicker (the browser keeps what it prepared).
 Click the page or press a key once: browsers only start sound after a click or key press. F11 (or MENU >
-FULLSCREEN) fills the screen. The game saves at the SAVE STATION, without a cost, as often as you like; the save stays in this browser.
+SETTINGS > FULLSCREEN) fills the screen. The game saves at the SAVE STATION, without a cost, as often as you like; the save stays in this browser.
 
 To play without a browser, download the Windows build from [Releases](https://github.com/fiodortretyakov/shadow-station-public/releases) (arm64 for Snapdragon
 PCs, x86_64 for most others), unzip it and run `ShadowStation.exe`.
@@ -24,7 +24,7 @@ PCs, x86_64 for most others), unzip it and run `ShadowStation.exe`.
 | Menu             | Escape                      | Start                           |
 | Switch tab       | Q / E                       | LB / RB                         |
 | Confirm / cancel | Enter / Escape              | A / B                           |
-| Fullscreen       | F11 or Alt+Enter            | MENU > FULLSCREEN               |
+| Fullscreen       | F11 or Alt+Enter            | MENU > SETTINGS > FULLSCREEN    |
 
 Back hop and parry are skills bought at the UPGRADE STATION. MENU > CONTROLS in the game lists everything.
 
