@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
+<title>Shadow Station</title>
+<link rel="icon" href="data:,">
+<style>
+/* Shadow Station web page: the canvas fills the window; the engine scales the 640x360 picture.
+   The loading view sits where the game's own loading screen will draw (scripts/ui/loading_screen.gd:
+   the title at 140/360, the bar at 186/360 and 224/640 wide, the step line at 202/360), so the
+   bar carries on there: this page fills it to LOADING_SHARE (Tuning.LOADING_WEB_SHARE) with the
+   download, the game fills the rest while it builds the station. */
+html, body, #canvas { margin: 0; padding: 0; border: 0; }
+html, body { width: 100%; height: 100%; }
+body { background: #07080c; color: #d6d5cc; overflow: hidden; touch-action: none;
+	font-family: Consolas, 'Courier New', monospace; }
+#canvas { display: block; image-rendering: pixelated; }
+#canvas:focus { outline: none; }
+#status { position: absolute; inset: 0; background: #07080c; display: flex; align-items: center; justify-content: center; }
+#frame { position: relative; width: min(100vw, 177.78vh); height: min(56.25vw, 100vh); }
+#frame h1 { position: absolute; left: 0; right: 0; top: 38.9%; margin: 0; text-align: center; color: #f08a34;
+	font-size: min(3.9vw, 6.9vh); line-height: 1; font-weight: bold; letter-spacing: 0.12em; text-indent: 0.12em; }
+#bar { position: absolute; left: 32.5%; width: 35%; top: 51.1%; height: 2.5%; box-sizing: border-box;
+	border: 2px solid #3d424c; background: #101218; }
+#fill { width: 0; height: 100%; background: #f08a34; }
+#step { position: absolute; left: 0; right: 0; top: 56.1%; text-align: center; color: #6b7179;
+	font-size: min(1.6vw, 2.8vh); letter-spacing: 0.08em; }
+#step.busy::after { content: '...'; animation: dots 1.2s steps(4) infinite; display: inline-block; width: 2.4em; text-align: left;
+	overflow: hidden; vertical-align: bottom; }
+@keyframes dots { from { width: 0; } to { width: 2.4em; } }
+#notice { display: none; position: absolute; left: 10%; right: 10%; top: 62%; margin: 0 auto; max-width: 36rem; padding: 1rem;
+	border: 2px solid #b03328; background: #461313; text-align: center; line-height: 1.4; white-space: pre-line; }
+</style>
+
+</head>
+<body>
+<canvas id="canvas" tabindex="0">This page needs a browser with canvas support.</canvas>
+<noscript>This page needs JavaScript.</noscript>
+<div id="status"><div id="frame">
+	<h1>SHADOW STATION</h1>
+	<div id="bar"><div id="fill"></div></div>
+	<div id="step">DOWNLOADING</div>
+	<div id="notice"></div>
+</div></div>
+<script src="index.js"></script>
+<script>
+const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":false,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":10403416,"index.wasm":39514754},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4};
+const GODOT_THREADS_ENABLED = false;
+const engine = new Engine(GODOT_CONFIG);
+// The share of the bar this page fills with the download (Tuning.LOADING_WEB_SHARE in the game).
+const LOADING_SHARE = 0.4;
+
+(function () {
+	const status = document.getElementById('status');
+	const fill = document.getElementById('fill');
+	const bar = document.getElementById('bar');
+	const step = document.getElementById('step');
+	const notice = document.getElementById('notice');
+	const canvas = document.getElementById('canvas');
+
+	function fail(err) {
+		console.error(err);
+		bar.style.display = 'none';
+		step.style.display = 'none';
+		notice.textContent = (err instanceof Error) ? err.message : String(err || 'The game could not start.');
+		notice.style.display = 'block';
+	}
+
+	const missing = Engine.getMissingFeatures({ threads: GODOT_THREADS_ENABLED });
+	if (missing.length !== 0) {
+		fail('This browser cannot run the game. Missing:\n' + missing.join('\n'));
+		return;
+	}
+	// Keyboard input goes to the canvas: keep the focus there.
+	canvas.addEventListener('pointerdown', () => canvas.focus());
+	// Extra engine arguments (the self-test page sets them before this script).
+	const extra = Array.isArray(window.SHADOW_STATION_ARGS) ? window.SHADOW_STATION_ARGS : [];
+	const mb = (n) => (n / 1048576).toFixed(1);
+	engine.startGame({
+		args: extra,
+		onProgress: function (current, total) {
+			if (current > 0 && total > 0) {
+				fill.style.width = (100 * LOADING_SHARE * Math.min(1, current / total)) + '%';
+				if (current < total) {
+					step.textContent = 'DOWNLOADING ' + mb(current) + ' / ' + mb(total) + ' MB';
+				} else {
+					// The engine compiles and starts: no progress to report until the game draws its own bar.
+					step.textContent = 'STARTING THE ENGINE';
+					step.classList.add('busy');
+				}
+			}
+		},
+	}).then(() => {
+		status.remove();
+		canvas.focus();
+	}, fail);
+}());
+</script>
+</body>
+</html>
+
